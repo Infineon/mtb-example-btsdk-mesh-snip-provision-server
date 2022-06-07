@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -232,6 +232,8 @@ void mesh_app_init(wiced_bool_t is_provisioned)
     // call app library to provide private key and register event handler
     wiced_bt_mesh_app_provision_server_init(pb_priv_key, mesh_provision_server_message_handler);
 
+    memset(&config, 0, sizeof(config));
+
     config.pub_key_type      = 1;
     config.static_oob_type   = 1;
     config.output_oob_action = (1 << WICED_BT_MESH_PROVISION_OUT_OOB_ACT_DISP_NUM);
@@ -307,6 +309,8 @@ uint32_t mesh_app_proc_rx_cmd(uint16_t opcode, uint8_t *p_data, uint32_t length)
 void mesh_provision_server_oob_configure(uint8_t *p_data, uint32_t length)
 {
     wiced_bt_mesh_provision_capabilities_data_t config;
+
+    memset(&config, 0, sizeof(config));
 
     STREAM_TO_UINT8(config.pub_key_type, p_data);
     STREAM_TO_UINT8(config.static_oob_type, p_data);
